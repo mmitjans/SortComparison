@@ -21,13 +21,13 @@ public class HeapSort<T extends Comparable>
              * in this case, the element is already there. */
             int n = heapsize; // the index of the inserted int
             while ( n > 0 ) { // until we reach the root of the heap
-                int p = (n - 1) / 2; // the index of the parent of n
+                int parentIndex = (n - 1) / 2; // the index of the parent of n
                 
-                int compareValue = compareValue(data[n], data[p]);
+                int compareValue = compareValue(data[n], data[parentIndex]);
                 
                 if ( compareValue > 0 ) { // child is larger than parent
-                    arraySwap(data, n, p); // swap child with parent
-                    n = p; // check parent
+                    arraySwap(data, n, parentIndex); // swap child with parent
+                    n = parentIndex; // check parent
                 } else // parent is larger than child
                 {
                     break; // all is good in the heap
