@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class FileProcessor {
 
@@ -26,15 +25,11 @@ public class FileProcessor {
 
     // Variables that stores the input/output filenames
     private String inputFile;
+    private String[] listOfFiles;
     private String outputFile;
     // Use to write into a file
     private BufferedWriter writer = null;
 
-    /**
-     * Constructor of this class. Takes the input/output file to read/write
-     *
-     * @param inputFile Input file to read the strings
-     */
     public FileProcessor(String inputFile, String outputFile) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
@@ -46,18 +41,41 @@ public class FileProcessor {
 
         }
     }
+    
+    public FileProcessor(String[] inputFiles, String outputFile) 
+    {
+        this.outputFile = outputFile;
+        this.listOfFiles = inputFiles;
+           
+        try {
+            File file = new File(outputFile);
+            writer = new BufferedWriter(new FileWriter(file));
+        } catch (IOException ex) {
+            System.out.println("Exception while creating file: " + 
+                    ex.getMessage());
+        }
+    }
 
-    public Queue<Integer> getList() throws IOException {
+    public Queue<Integer> getList() throws IOException 
+    {
         Queue<Integer> list = new LinkedList<>();
+        
+        for(String currentFile : this.listOfFiles)
+        {
+            appendToList(currentFile, list);
+        }
 
-        fFilePath = Paths.get(this.inputFile);
+        return list;
+    }
+    
+    private void appendToList(String inputFile, Queue<Integer> list) throws IOException
+    {
+        Path filePath = Paths.get(inputFile);
 
-        Scanner scanner = new Scanner(fFilePath, ENCODING.name());
+        Scanner scanner = new Scanner(filePath, ENCODING.name());
 
         while (scanner.hasNextLine()) {
             list.add(Integer.parseInt(scanner.nextLine()));
         }
-        
-        return list;
     }
 }

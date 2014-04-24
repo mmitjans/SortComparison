@@ -1,18 +1,19 @@
 package sort;
 
-public class HeapSort<T extends Comparable> 
+public class HeapSort<T extends Comparable> extends BaseSort
 {
-    public HeapSort()
+    public HeapSort(T[] data)
     {
+        super(data);
     }
     
-    public void sort(T[] data)
+    public void sort()
     {
-        heapify(data);
-        performSort(data);
+        heapify(this.data);
+        performSort(this.data);
     }
     
-    private void heapify(T[] data)
+    private void heapify(Comparable[] data)
     {
         /* Insertion onto heap */
         for (int heapsize = 0; heapsize < data.length; heapsize++) {
@@ -34,23 +35,21 @@ public class HeapSort<T extends Comparable>
                 }
             }
         }
-        
-        
     }
     
     private int compareValue(Comparable one, Comparable two) {
         return one.compareTo(two);
     }
     
-    private void arraySwap(T[] data, int childIndex, int parentIndex)
+    private void arraySwap(Comparable[] data, int childIndex, int parentIndex)
     {
-        T parentTemp = data[parentIndex];
-        T childTemp = data[childIndex];
+        Comparable parentTemp = data[parentIndex];
+        Comparable childTemp = data[childIndex];
         data[parentIndex] = childTemp;
         data[childIndex] = parentTemp;
     }
     
-    private void performSort(T[] array)
+    private void performSort(Comparable[] array)
     {
         /* Removal from heap */
         for (int heapsize = array.length; heapsize > 0;) {
@@ -94,11 +93,5 @@ public class HeapSort<T extends Comparable>
             }
         }
     }
-    
-        // print array to standard output
-    public void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            System.out.println(a[i]);
-        }
-    }
+
 }

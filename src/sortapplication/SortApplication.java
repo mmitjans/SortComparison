@@ -2,28 +2,32 @@ package sortapplication;
 
 import io.FileProcessor;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Queue;
 import sort.HeapSort;
+import sort.ISort;
 import sort.ShellSort;
 import sort.ShellSortSequenceGenerator.SequenceType;
 
 public class SortApplication {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException 
+    {
+        if(args.length != 6)
+        {
+            throw new RuntimeException("Invalid number of arguments");
+        }
+        
+        // copy the input files
+        String[] inputFiles = Arrays.copyOfRange(args, 1, 5);
+        String outputFileName = args[0];
         
         FileProcessor fileIO = 
-                new FileProcessor("/Users/miltondmitjans/Downloads/lab4Input/dup1K.dat", 
-                "/Users/miltondmitjans/Downloads/lab4Input/test.out");
+                new FileProcessor(inputFiles, outputFileName);
         
         Queue<Integer> numbers = fileIO.getList();
         
-        Integer[] values = new Integer[]{222,40, 5, 20, 99};
-        
-        ShellSort<Integer> shellSort = new ShellSort(SequenceType.FIRST);
-        //shellSort.show(values);
-        //shellSort.sortValues(values);
-        //shellSort.show(values);
         Integer[] heapValues = new Integer[numbers.size()];
         int iter = 0;
         for(Integer currentNumber : numbers)
@@ -31,14 +35,14 @@ public class SortApplication {
             heapValues[iter] = currentNumber;
             iter++;
         }
-        
-        HeapSort<Integer> heapSort = new HeapSort<>();
-        heapSort.show(heapValues);
+        ISort<Integer> shellSort = new ShellSort<>(SequenceType.FIRST, heapValues);
+        ISort<Integer> heapSort = new HeapSort<>(heapValues);
+        shellSort.printSortedData();
         long startTime = System.currentTimeMillis();
-        shellSort.sortValues(heapValues);
+        shellSort.sort();
         long delta = System.currentTimeMillis() - startTime;
         System.out.println("Took: " + delta);
-        heapSort.show(heapValues);
+        shellSort.printSortedData();
     }
     
 }
