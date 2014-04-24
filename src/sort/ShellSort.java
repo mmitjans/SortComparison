@@ -14,6 +14,7 @@ public class ShellSort<T extends Comparable>
         
     public void sortValues(T[] values)
     {
+        
         int listLength = values.length;
         
         int[] gapSequence = 

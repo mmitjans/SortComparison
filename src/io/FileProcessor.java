@@ -55,7 +55,7 @@ public class FileProcessor {
         Scanner scanner = new Scanner(fFilePath, ENCODING.name());
 
         while (scanner.hasNextLine()) {
-            list.add(Integer.getInteger(scanner.nextLine()));
+            list.add(Integer.parseInt(scanner.nextLine()));
         }
         
         return list;
