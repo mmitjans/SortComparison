@@ -9,4 +9,6 @@ package sort;
 public interface ISort<T extends Comparable> {
     void sort();
     void printSortedData();
+    String name();
+    int size();
 }

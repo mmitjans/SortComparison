@@ -13,7 +13,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -28,7 +31,10 @@ public class FileProcessor {
     private String[] listOfFiles;
     private String outputFile;
     // Use to write into a file
-    private BufferedWriter writer = null;
+    private BufferedWriter _writer = null;
+    
+    List<Queue<Integer>> fileList;
+    Map<String, Queue<Integer>> fileMap = new HashMap<>();
 
     public FileProcessor(String inputFile, String outputFile) {
         this.inputFile = inputFile;
@@ -36,7 +42,7 @@ public class FileProcessor {
         
         try {
             File file = new File(outputFile);
-            writer = new BufferedWriter(new FileWriter(file));
+            _writer = new BufferedWriter(new FileWriter(file));
         } catch (IOException ex) {
 
         }
@@ -46,30 +52,45 @@ public class FileProcessor {
     {
         this.outputFile = outputFile;
         this.listOfFiles = inputFiles;
+        this.fileList = new LinkedList<>();
            
         try {
             File file = new File(outputFile);
-            writer = new BufferedWriter(new FileWriter(file));
+            _writer = new BufferedWriter(new FileWriter(file));
         } catch (IOException ex) {
             System.out.println("Exception while creating file: " + 
                     ex.getMessage());
         }
     }
 
-    public Queue<Integer> getList() throws IOException 
+    public List<Queue<Integer>> getList() throws IOException 
+    {
+        for(String currentFile : this.listOfFiles)
+        {
+            Queue<Integer> list = appendToList(currentFile);
+            
+            this.fileList.add(list);
+        }
+
+        return this.fileList;
+    }
+    
+    public Map<String, Queue<Integer>>  getMapList() throws IOException 
+    {
+        for(String currentFile : this.listOfFiles)
+        {
+            Queue<Integer> list = appendToList(currentFile);
+            
+            this.fileMap.put(currentFile, list);
+        }
+
+        return this.fileMap;
+    }
+    
+    private Queue<Integer> appendToList(String inputFile) throws IOException
     {
         Queue<Integer> list = new LinkedList<>();
         
-        for(String currentFile : this.listOfFiles)
-        {
-            appendToList(currentFile, list);
-        }
-
-        return list;
-    }
-    
-    private void appendToList(String inputFile, Queue<Integer> list) throws IOException
-    {
         Path filePath = Paths.get(inputFile);
 
         Scanner scanner = new Scanner(filePath, ENCODING.name());
@@ -77,5 +98,23 @@ public class FileProcessor {
         while (scanner.hasNextLine()) {
             list.add(Integer.parseInt(scanner.nextLine()));
         }
+        
+        return list;
     }
+    
+    public void writeToFile(String fileName, String message)
+    {
+        try {
+            File file = new File(fileName);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            
+            writer.write(message);
+            writer.newLine();
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println("Exception while creating file: "
+                    + ex.getMessage());
+        }
+    }
+    
 }

@@ -36,18 +36,18 @@ public class ShellSort<T extends Comparable> extends BaseSort
                     Comparable temp = data[arrayIndex];
 
                     int gapArrayIndex = arrayIndex;
-                    System.out.println("Current temp: " + temp);
-                    System.out.println("Current gapArrayIndex: " + gapArrayIndex);
-                    System.out.println("Current gap: " + currentGap);
+                    //System.out.println("Current temp: " + temp);
+                    //System.out.println("Current gapArrayIndex: " + gapArrayIndex);
+                    //System.out.println("Current gap: " + currentGap);
                     
                     for (; gapArrayIndex >= currentGap
                             && compareValue(data[gapArrayIndex - currentGap], 
                                             temp) > 0;
                             gapArrayIndex -= currentGap) 
                     {
-                        System.out.println("Gap array index: " + gapArrayIndex);
-                        System.out.println("Compare value: " + 
-                                (gapArrayIndex - currentGap));
+                        //System.out.println("Gap array index: " + gapArrayIndex);
+                        //System.out.println("Compare value: " + 
+                        //        (gapArrayIndex - currentGap));
                         
                         data[gapArrayIndex] = 
                                 data[gapArrayIndex - currentGap];
@@ -64,18 +64,8 @@ public class ShellSort<T extends Comparable> extends BaseSort
         
     }
  
-    // print array to standard output
-    public void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            System.out.println(a[i]);
-        }
-    }
-    
-    private static boolean less(Comparable v, Comparable w) {
-        return (v.compareTo(w) < 0);
-    }
-
-    private int compareValue(Comparable one, Comparable two) {
-        return one.compareTo(two);
+    public String name()
+    {
+        return "ShellSort with SequenceType " + this._sequenceType.name();
     }
 }

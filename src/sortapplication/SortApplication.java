@@ -3,14 +3,9 @@ package sortapplication;
 import io.FileProcessor;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Queue;
-import sort.HeapSort;
-import sort.ISort;
-import sort.ShellSort;
-import sort.ShellSortSequenceGenerator.SequenceType;
+import sort.SortAnalyzer;
 
 public class SortApplication {
-
 
     public static void main(String[] args) throws IOException 
     {
@@ -26,23 +21,8 @@ public class SortApplication {
         FileProcessor fileIO = 
                 new FileProcessor(inputFiles, outputFileName);
         
-        Queue<Integer> numbers = fileIO.getList();
-        
-        Integer[] heapValues = new Integer[numbers.size()];
-        int iter = 0;
-        for(Integer currentNumber : numbers)
-        {
-            heapValues[iter] = currentNumber;
-            iter++;
-        }
-        ISort<Integer> shellSort = new ShellSort<>(SequenceType.FIRST, heapValues);
-        ISort<Integer> heapSort = new HeapSort<>(heapValues);
-        shellSort.printSortedData();
-        long startTime = System.currentTimeMillis();
-        shellSort.sort();
-        long delta = System.currentTimeMillis() - startTime;
-        System.out.println("Took: " + delta);
-        shellSort.printSortedData();
+        SortAnalyzer analyzer = new SortAnalyzer(fileIO);
+        analyzer.runAnalysis();
     }
     
 }

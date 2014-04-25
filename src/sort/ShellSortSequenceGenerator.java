@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package sort;
 
 public class ShellSortSequenceGenerator {
@@ -15,11 +9,27 @@ public class ShellSortSequenceGenerator {
         FOURTH
     };
     
-    public static int[] generateSequence(SequenceType type, int length)
+    public static int[] generateSequence(SequenceType sequenceType, int length)
     {
-        // 3x+1 increment sequence:  1, 4, 13, 40, 121, 364, 1093, ... 
-        int h = 1;
-        while (h < length/3) h = 3*h + 1; 
-        return new int[]{1093, 364, 121, 40, 13, 4, 1};
+        int[] sequence = null;
+        switch(sequenceType)
+        {
+            case FIRST:
+                sequence = new int[]{1093, 364, 121, 40, 13, 4, 1};
+            break;  
+            case SECOND:
+                sequence = new int[]{1123, 373, 149, 53, 17, 5, 1};
+            break;
+            case THIRD:
+                sequence = new int[]{1080, 360, 120, 60, 30, 10, 1};
+                break;
+            case FOURTH:
+                sequence = new int[]{1080, 360, 120, 60, 30, 10, 1};
+                break;
+            default:
+                
+        }
+        
+        return sequence;
     }
 }
